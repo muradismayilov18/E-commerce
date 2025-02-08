@@ -9,6 +9,7 @@ const SebetCart = () => {
     const [removeFromCart] = useRemoveFromCartMutation();
     const [updateQuantity] = useUpdateCartQuantityMutation();
 
+    
     const calculateTotal = () => {
         if (!cartData?.cart) return 0;
         return cartData.cart.reduce((total, item) => {
@@ -102,15 +103,16 @@ const SebetCart = () => {
                                     {/* Məhsul şəkli */}
                                     <div className="w-40 h-40 flex-shrink-0 rounded-lg overflow-hidden">
                                         <Link to={`/product/${item.product._id}`}>
-                                            <img 
+                                            <img
                                                 src={item.product.images?.[0]?.url || '/default-product.jpg'}
-                                                alt={item.product.name} 
+                                                alt={item.product.name}
                                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                                 onError={(e) => {
                                                     e.target.onerror = null;
                                                     e.target.src = '/default-product.jpg';
                                                 }}
                                             />
+
                                         </Link>
                                     </div>
 
@@ -122,8 +124,8 @@ const SebetCart = () => {
                                         </Link>
                                         <div className="flex items-center gap-2 mb-4">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                                ${item.product.stock > 5 
-                                                    ? 'bg-green-100 text-green-800' 
+                                                ${item.product.stock > 5
+                                                    ? 'bg-green-100 text-green-800'
                                                     : 'bg-orange-100 text-orange-800'}`}>
                                                 Stok: {item.product.stock}
                                             </span>
@@ -139,8 +141,8 @@ const SebetCart = () => {
                                                         -1
                                                     )}
                                                     className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors
-                                                        ${item.quantity <= 1 
-                                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                                                        ${item.quantity <= 1
+                                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                                             : 'bg-gray-100 hover:bg-gray-200 text-gray-600'}`}
                                                     disabled={item.quantity <= 1}
                                                 >
@@ -155,8 +157,8 @@ const SebetCart = () => {
                                                         1
                                                     )}
                                                     className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors
-                                                        ${item.quantity >= item.product.stock 
-                                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                                                        ${item.quantity >= item.product.stock
+                                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                                             : 'bg-gray-100 hover:bg-gray-200 text-gray-600'}`}
                                                     disabled={item.quantity >= item.product.stock}
                                                 >

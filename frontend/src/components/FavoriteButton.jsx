@@ -8,23 +8,25 @@ const FavoriteButton = () => {
     const [removeFromFavorites] = useRemoveFromFavoritesMutation();
     const [localFavorites, setLocalFavorites] = useState([]);
 
-    // **API-dan gələn favoritlər lokal state-ə otursun**
     useEffect(() => {
         if (favoriteData?.favorites) {
             setLocalFavorites(favoriteData.favorites);
+        } else {
+            setLocalFavorites([]); // Əgər favorit məlumatları yoxdursa, lokal state-i boş array ilə təyin edin
         }
     }, [favoriteData]);
-
+    
     const handleRemoveFromFavorites = async (productId) => {
         try {
             // Optimistik yeniləmə (UI dərhal dəyişir)
             setLocalFavorites(prev => prev.filter(item => item._id !== productId));
-
+    
+            // Serverdəki məlumatları silirik
             await removeFromFavorites(productId).unwrap();
             toast.success('Məhsul favorilərdən silindi');
-
-            // **API-dan yenilənmiş məlumatları çəkmək**
-            refetch();
+    
+            // API-dan yenilənmiş məlumatları çəkmək
+            await refetch();
         } catch (error) {
             toast.error('Məhsul silinərkən xəta baş verdi');
             setLocalFavorites(favoriteData?.favorites || []); // Əvvəlki vəziyyətə qaytar
@@ -39,7 +41,7 @@ const FavoriteButton = () => {
         );
     }
 
-    if (!localFavorites.length) {
+    if (!localFavorites || localFavorites.length === 0) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-gray-50 to-white">
                 <div className="text-center">
@@ -57,7 +59,6 @@ const FavoriteButton = () => {
             </div>
         );
     }
-
     return (
         <section className="bg-gradient-to-b from-gray-50 to-white py-12 min-h-screen">
             <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

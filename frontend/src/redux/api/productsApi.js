@@ -74,12 +74,11 @@ export const productApi = createApi({
         getFavorites: builder.query({
             query: () => '/products/favorites',
             providesTags: ['Favorites'],
-            transformResponse: (response) => response,
-            transformErrorResponse: (response) => {
-                console.error('Favorites Error:', response);
-                return { favorites: [] };
-            }
+            transformResponse: (response) => ({
+                favorites: response?.favorites || []
+            }),
         }),
+        
 
         addToFavorites: builder.mutation({
             query: (productId) => ({
@@ -102,17 +101,4 @@ export const productApi = createApi({
     })
 });
 
-export const {
-    useGetProductDetailsQuery,
-    useGetProductsQuery,
-    useAddProductMutation,
-    useDeleteProductMutation,
-    useEditProductMutation,
-    useGetCartQuery,
-    useAddToCartMutation,
-    useRemoveFromCartMutation,
-    useUpdateCartQuantityMutation,
-    useGetFavoritesQuery,
-    useAddToFavoritesMutation,
-    useRemoveFromFavoritesMutation
-} = productApi;
+export const { useGetProductDetailsQuery, useGetProductsQuery, useAddProductMutation, useDeleteProductMutation, useEditProductMutation, useGetCartQuery, useAddToCartMutation, useRemoveFromCartMutation, useUpdateCartQuantityMutation, useGetFavoritesQuery, useAddToFavoritesMutation, useRemoveFromFavoritesMutation } = productApi;
