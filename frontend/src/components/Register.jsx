@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useRegisterMutation } from '../redux/api/authApi'
 
-const RegisterRegister = () => {
+const Register = () => {
 
     const [formData, setFormData] = useState({
         name:'',
