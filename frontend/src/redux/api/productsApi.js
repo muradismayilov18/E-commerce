@@ -1,8 +1,10 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
+// redux/api/productsApi.js
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const productApi = createApi({
     reducerPath: "productApi",
-    baseQuery: fetchBaseQuery({baseUrl: "/commerce/mehsullar"}),
+    baseQuery: fetchBaseQuery({ baseUrl: "/commerce/mehsullar" }),
+    tagTypes: ['Cart', 'Favorites'],
     endpoints: (builder) => ({
         getProducts: builder.query({
             query: () => "/products"
@@ -14,72 +16,71 @@ export const productApi = createApi({
 
         addProduct: builder.mutation({
             query: (productData) => ({
-              url: "/admin/products",
-              method: "POST",
-              body: productData,
+                url: "/admin/products",
+                method: "POST",
+                body: productData,
             }),
-          }),
-      
-          deleteProduct: builder.mutation({
-              query: (id) => ({
+        }),
+
+        deleteProduct: builder.mutation({
+            query: (id) => ({
                 url: `/admin/products/${id}`,
                 method: "DELETE",
-              }),
             }),
-      
-          editProduct: builder.mutation({
-              query: ({ id, formData }) => ({
-                  url: `/admin/products/${id}`,
-                  method: "PUT",
-                  body: formData,
-                }),
-                
-            }),
+        }),
 
-            getCart: builder.query({
-                query: () => "/products/cart",
-                providesTags: ['Cart']
+        editProduct: builder.mutation({
+            query: ({ id, formData }) => ({
+                url: `/admin/products/${id}`,
+                method: "PUT",
+                body: formData,
             }),
-    
-            addToCart: builder.mutation({
-                query: ({ productId, quantity }) => ({
-                    url: '/products/cart',
-                    method: 'POST',
-                    body: { productId, quantity },
-                    credentials: 'include'
-                }),
-                invalidatesTags: ['Cart']
+        }),
+
+        getCart: builder.query({
+            query: () => "/products/cart",
+            providesTags: ['Cart']
+        }),
+
+        addToCart: builder.mutation({
+            query: ({ productId, quantity }) => ({
+                url: '/products/cart',
+                method: 'POST',
+                body: { productId, quantity },
+                credentials: 'include'
             }),
-  
-          updateCartQuantity: builder.mutation({
-              query: ({ productId, quantity }) => ({
-                  url: `/products/cart/update/${productId}`, // URL-i dəyişdik
-                  method: 'PUT',
-                  body: { quantity },
-                  credentials: 'include' // Cookie-ləri göndərmək üçün
-              }),
-              invalidatesTags: ['Cart']
-          }),
-  
-          removeFromCart: builder.mutation({
-              query: (productId) => ({
-                  url: `/products/cart/${productId}`,
-                  method: 'DELETE',
-                  credentials: 'include'
-              }),
-              invalidatesTags: ['Cart']
-          }),
+            invalidatesTags: ['Cart']
+        }),
 
-                  // Favoriləri gətirmək üçün
-                  getFavorites: builder.query({
-                    query: () => '/products/favorites',
-                    transformErrorResponse: (response) => {
-                        console.error('Favorites Error:', response);
-                        return { favorites: [] };
-                    }
-                }),
+        updateCartQuantity: builder.mutation({
+            query: ({ productId, quantity }) => ({
+                url: `/products/cart/update/${productId}`,
+                method: 'PUT',
+                body: { quantity },
+                credentials: 'include'
+            }),
+            invalidatesTags: ['Cart']
+        }),
 
-        // Favorilərə əlavə etmək üçün
+        removeFromCart: builder.mutation({
+            query: (productId) => ({
+                url: `/products/cart/${productId}`,
+                method: 'DELETE',
+                credentials: 'include'
+            }),
+            invalidatesTags: ['Cart']
+        }),
+
+        getFavorites: builder.query({
+            query: () => '/products/favorites',
+            providesTags: ['Favorites'],
+            transformResponse: (response) => response,
+            transformErrorResponse: (response) => {
+                console.error('Favorites Error:', response);
+                return { favorites: [] };
+            }
+        }),
+
         addToFavorites: builder.mutation({
             query: (productId) => ({
                 url: '/products/favorites',
@@ -90,18 +91,28 @@ export const productApi = createApi({
             invalidatesTags: ['Favorites']
         }),
 
-                // Favorilərdən silmək üçün
-                removeFromFavorites: builder.mutation({
-                    query: (productId) => ({
-                        url: `/products/favorites/${productId}`,
-                        method: 'DELETE',
-                        credentials: 'include'
-                    }),
-                    invalidatesTags: ['Favorites']
-                }),
-
+        removeFromFavorites: builder.mutation({
+            query: (productId) => ({
+                url: `/products/favorites/${productId}`,
+                method: 'DELETE',
+                credentials: 'include'
+            }),
+            invalidatesTags: ['Favorites']
+        }),
     })
-})
-// default
-//const - named import or export
-export const {useGetProductDetailsQuery, useGetProductsQuery, useAddProductMutation, useDeleteProductMutation, useEditProductMutation, useGetCartQuery, useAddToCartMutation, useRemoveFromCartMutation, useUpdateCartQuantityMutation, useGetFavoritesQuery, useAddToFavoritesMutation, useRemoveFromFavoritesMutation} = productApi
+});
+
+export const {
+    useGetProductDetailsQuery,
+    useGetProductsQuery,
+    useAddProductMutation,
+    useDeleteProductMutation,
+    useEditProductMutation,
+    useGetCartQuery,
+    useAddToCartMutation,
+    useRemoveFromCartMutation,
+    useUpdateCartQuantityMutation,
+    useGetFavoritesQuery,
+    useAddToFavoritesMutation,
+    useRemoveFromFavoritesMutation
+} = productApi;
