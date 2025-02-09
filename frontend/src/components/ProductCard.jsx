@@ -1,66 +1,68 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import StarRatings from 'react-star-ratings';
+import React from "react";
+import { Link } from "react-router-dom";
+import StarRatings from "react-star-ratings";
 
 const ProductCard = ({ mehsul }) => {
-   const defaultImageUrl = "https://via.placeholder.com/150"; // Placeholder şəkili
+  const defaultImageUrl = "https://via.placeholder.com/150";
+  if (!mehsul) return null;
 
-   if (!mehsul) {
-       return null;
-   }
+  const imageUrl =
+    mehsul.images && mehsul.images[0] ? mehsul.images[0].url : defaultImageUrl;
 
-   const imageUrl = mehsul.images && mehsul.images[0] ? mehsul.images[0].url : defaultImageUrl;
+  return (
+    <Link to={`/product/${mehsul._id}`} className="group">
+      <div className="relative overflow-hidden rounded-2xl border border-gray-200 bg-white text-gray-800 shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:border-indigo-500 h-full flex flex-col">
+        
+        {/* Ürün Resmi */}
+        <div className="relative">
+          <img
+            className="w-full h-64 object-cover rounded-t-2xl transition-transform duration-300 group-hover:scale-105"
+            src={imageUrl}
+            alt={mehsul.name || "product image"}
+          />
+          {/* Etiket */}
+          <span className="absolute top-4 left-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-md transform rotate-3">
+            🚀 Yeni Gəliş!
+          </span>
+        </div>
 
-   return (
-       <Link to={`/product/${mehsul._id}`}>
-           <section className="bg-gray-50 antialiased dark:bg-gray-900">
-               <div className="mx-auto">
-                   <div className="mb-4 grid gap-4 md:mb-8">
-                       <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-                           <div className="rounded-lg border p-6 shadow-sm transition-all duration-300 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800">
-                               <div className="h-56 w-full overflow-hidden rounded-lg">
-                                   <img
-                                       className="w-full h-full object-cover transform transition-transform duration-300 hover:scale-105"
-                                       src={imageUrl}
-                                       alt={mehsul.name || "product image"}
-                                   />
-                               </div>
-                               <div className="pt-6">
-                                   {/* Digər məzmun */}
-                               </div>
-                           </div>
+        {/* Ürün Detayları */}
+        <div className="p-6 flex flex-col justify-between flex-grow">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 transition-all duration-300 group-hover:text-indigo-600">
+              {mehsul.name}
+            </h3>
 
-                           <div className="pt-6">
-                               <div className="mb-4 flex items-center justify-between gap-4 pt-[40px]">
-                                   <span className="me-2 rounded bg-blue-500 text-[#fff] px-2.5 py-0.5 text-xs"> Up to 35% off </span>
-                               </div>
+            {/* Reytinq */}
+            <div className="flex items-center gap-2 mt-2">
+              <StarRatings
+                rating={mehsul.ratings || 0}
+                starRatedColor="gold"
+                numberOfStars={5}
+                starDimension="18px"
+                starSpacing="4px"
+              />
+              <span className="text-sm text-gray-500">
+                ({mehsul.ratings || "Reyting yoxdur"})
+              </span>
+            </div>
 
-                               <p className="text-lg font-semibold leading-tight text-gray-900 dark:text-white">{mehsul.name}</p>
+            {/* Stok */}
+            <p className="text-sm text-gray-600 mt-1">
+              {mehsul.stock ? `Stokda: ${mehsul.stock} ədəd` : "Stokda yoxdur"}
+            </p>
+          </div>
 
-                               <div className="mt-2 flex items-center gap-2">
-                                   <StarRatings
-                                       rating={mehsul.ratings || 0}
-                                       starRatedColor="yellow"
-                                       numberOfStars={5}
-                                       starDimension="16px"
-                                       starSpacing="2px"
-                                   />
-                                   <p className="text-sm font-medium text-gray-900 dark:text-white">{mehsul.ratings || "Reyting no"}</p>
-                                   <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{mehsul.stock || "Stokda yoxdur"}</p>
-                               </div>
-
-                               <div className="mt-4">
-                                   <p className="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">
-                                       {mehsul.price}<span className="text-lg">&#8380;</span>
-                                   </p>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           </section>
-       </Link>
-   );
+          {/* Fiyat */}
+          <div className="mt-4">
+            <p className="text-2xl font-bold text-indigo-600 transition-all duration-300 group-hover:text-indigo-800">
+              {mehsul.price} <span className="text-lg">₼</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
 };
 
 export default ProductCard;

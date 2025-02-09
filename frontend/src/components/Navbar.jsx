@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
@@ -5,7 +7,10 @@ import { logout } from "../redux/features/userSlice"
 import { useGetCartQuery, useGetFavoritesQuery } from "../redux/api/productsApi"
 
 const Navbar = () => {
-  const { isAuthenticated } = useSelector((state) => state.userSlice)
+  const { isAuthenticated, user } = useSelector((state) => ({
+    isAuthenticated: state.userSlice.isAuthenticated,
+    user: state.userSlice.user,
+  }))
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState("")
@@ -27,16 +32,16 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="bg-white shadow-lg">
+    <nav className="bg-white shadow-xl border-b-2 border-gray-200">
       {/* Fullscreen Search Panel */}
       {showSearch && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg w-full max-w-xl relative">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center backdrop-blur-sm">
+          <div className="w-full max-w-xl relative px-4">
             <button
               onClick={() => setShowSearch(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              className="absolute -top-12 right-4 text-white hover:text-gray-200 transition-colors duration-200"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -46,11 +51,11 @@ const Navbar = () => {
                 placeholder="Axtarış..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500"
+                className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 transition-colors duration-200 bg-white/90"
               />
               <button
                 type="submit"
-                className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
               >
                 Axtar
               </button>
@@ -60,35 +65,42 @@ const Navbar = () => {
       )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          {/* Left Section */}
-          <div className="flex items-center">
-            {/* Logo */}
-            <Link to="/" className="flex-shrink-0">
-              <img
-                className="h-8 w-auto"
-                src="https://res.cloudinary.com/dwdvr0oxa/image/upload/v1737639267/logo_wkss52.png"
-                alt="Logo"
-              />
+        <div className="flex justify-between items-center h-20">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <Link to="/" className="flex items-center space-x-2">
+              {isAuthenticated && user?.name ? (
+                <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-yellow-400 to-red-500 rounded-full text-2xl text-white font-semibold shadow-lg">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+              ) : (
+                <img
+                  className="h-12 w-auto"
+                  src="https://res.cloudinary.com/dwdvr0oxa/image/upload/v1737639267/logo_wkss52.png"
+                  alt="Logo"
+                />
+              )}
             </Link>
+          </div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:ml-6 md:flex md:space-x-8">
+          {/* Desktop Navigation - Centered */}
+          <div className="hidden md:flex flex-1 justify-center">
+            <div className="flex space-x-10">
               <Link
                 to="/"
-                className="text-gray-700 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                className="text-gray-800 hover:text-yellow-500 px-4 py-2 rounded-md text-lg font-semibold transition-all duration-300"
               >
                 Home
               </Link>
               <Link
                 to="/shop"
-                className="text-gray-700 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                className="text-gray-800 hover:text-yellow-500 px-4 py-2 rounded-md text-lg font-semibold transition-all duration-300"
               >
                 Shop
               </Link>
               <Link
                 to="/about"
-                className="text-gray-700 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                className="text-gray-800 hover:text-yellow-500 px-4 py-2 rounded-md text-lg font-semibold transition-all duration-300"
               >
                 About
               </Link>
@@ -96,13 +108,13 @@ const Navbar = () => {
           </div>
 
           {/* Right Section */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center space-x-6">
             {/* Search Icon */}
             <button
               onClick={() => setShowSearch(true)}
-              className="p-2 text-gray-500 hover:text-blue-500 rounded-full hover:bg-gray-100 transition-colors"
+              className="p-2 text-gray-800 hover:text-gray-500 rounded-full hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -115,9 +127,9 @@ const Navbar = () => {
             {/* Cart */}
             <Link
               to="/cart"
-              className="relative p-2 text-gray-500 hover:text-blue-500 rounded-full hover:bg-gray-100 transition-colors"
+              className="relative p-2 text-gray-800 hover:text-yellow-500 rounded-full hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -135,9 +147,9 @@ const Navbar = () => {
             {/* Favorites */}
             <Link
               to="/favori"
-              className="relative p-2 text-gray-500 hover:text-blue-500 rounded-full hover:bg-gray-100 transition-colors"
+              className="relative p-2 text-gray-800 hover:text-yellow-500 rounded-full hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -157,76 +169,62 @@ const Navbar = () => {
               <div className="relative">
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center focus:outline-none"
+                  className="flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-full transition-all duration-200"
                 >
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src="/docs/images/people/profile-picture-3.jpg"
-                    alt="User profile"
-                  />
+                  <div className="w-14 h-14 bg-gradient-to-r from-yellow-400 to-red-500 flex items-center justify-center text-2xl text-white font-semibold rounded-full shadow-lg">
+                    {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
+                  </div>
                 </button>
                 {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                    <Link to="/admin/products" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-2 z-10 border border-gray-300">
+                    <Link
+                      to="/admin/products"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
+                    >
                       Add Products
                     </Link>
-                    <Link to="/admin/product" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <Link
+                      to="/admin/product"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
+                    >
                       Admin Product
                     </Link>
-                    <Link to="/admin/editproduct" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <Link
+                      to="/admin/editproduct"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
+                    >
                       Edit Product
                     </Link>
-                    
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
                     >
-                      Sign out
+                      Logout
                     </button>
                   </div>
                 )}
               </div>
             ) : (
-              <Link
-                to="/login"
-                className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm"
-              >
-                Daxil ol
-              </Link>
+              <div className="flex space-x-6">
+                <Link
+                  to="/login"
+                  className="text-gray-800 hover:text-yellow-500 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="text-gray-800 hover:text-yellow-500 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300"
+                >
+                  Register
+                </Link>
+              </div>
             )}
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-gray-500 hover:text-blue-500 rounded-lg hover:bg-gray-100"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white border-t">
-          <div className="px-4 pt-2 pb-3 space-y-1">
-            <Link to="/" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-              Home
-            </Link>
-            <Link to="/shop" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-              Shop
-            </Link>
-            <Link to="/about" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-              About
-            </Link>
-          </div>
-        </div>
-      )}
     </nav>
   )
 }
 
 export default Navbar
-

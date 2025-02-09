@@ -15,16 +15,16 @@ const FavoriteButton = () => {
             setLocalFavorites([]); // Əgər favorit məlumatları yoxdursa, lokal state-i boş array ilə təyin edin
         }
     }, [favoriteData]);
-    
+
     const handleRemoveFromFavorites = async (productId) => {
         try {
             // Optimistik yeniləmə (UI dərhal dəyişir)
             setLocalFavorites(prev => prev.filter(item => item._id !== productId));
-    
+
             // Serverdəki məlumatları silirik
             await removeFromFavorites(productId).unwrap();
             toast.success('Məhsul favorilərdən silindi');
-    
+
             // API-dan yenilənmiş məlumatları çəkmək
             await refetch();
         } catch (error) {
@@ -35,61 +35,62 @@ const FavoriteButton = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex justify-center items-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-indigo-600 to-purple-700">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-white"></div>
             </div>
         );
     }
 
     if (!localFavorites || localFavorites.length === 0) {
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-gray-50 to-white">
-                <div className="text-center">
-                    <i className="fas fa-heart text-5xl text-gray-300 mb-6"></i>
-                    <h2 className="text-3xl font-bold text-gray-800 mb-3">Favori siyahınız boşdur</h2>
-                    <p className="text-gray-500 mb-8 text-lg">Hələ heç bir məhsulu favori etməmisiniz</p>
+            <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 to-gray-900 text-white py-12">
+                <div className="text-center space-y-6">
+                    <i className="fas fa-heart text-6xl text-gray-400"></i>
+                    <h2 className="text-4xl font-extrabold text-gray-200">Favori Siyahınız Boşdur</h2>
+                    <p className="text-xl text-gray-400">Hələ heç bir məhsul əlavə etməmisiniz.</p>
                     <Link
                         to="/"
-                        className="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-sm hover:shadow-md"
+                        className="inline-flex items-center justify-center bg-gradient-to-r from-pink-500 to-red-600 text-white px-8 py-4 rounded-lg hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-out"
                     >
                         <i className="fas fa-shopping-bag mr-2"></i>
-                        Alış-verişə başla
+                        Alış-verişə Başla
                     </Link>
                 </div>
             </div>
         );
     }
+
     return (
-        <section className="bg-gradient-to-b from-gray-50 to-white py-12 min-h-screen">
+        <section className="bg-gradient-to-b from-gray-100 to-gray-300 py-12 min-h-screen">
             <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between mb-8">
-                    <h2 className="text-3xl font-bold text-gray-900">
-                        Favori Məhsullarım 
-                        <span className="ml-2 text-2xl text-gray-500">
+                    <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+                        Favori Məhsullarım
+                        <span className="ml-2 text-2xl text-gray-600">
                             ({localFavorites.length} məhsul)
                         </span>
                     </h2>
                     <Link 
                         to="/"
-                        className="text-blue-600 hover:text-blue-800 font-medium flex items-center"
+                        className="text-blue-600 hover:text-blue-800 font-medium flex items-center transform transition-all duration-300 ease-out hover:scale-105"
                     >
                         <i className="fas fa-arrow-left mr-2"></i>
-                        Alış-verişə davam et
+                        Alış-verişə Davam Et
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {localFavorites.map((product) => (
-                        <div 
-                            key={product._id} 
-                            className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group"
+                        <div
+                            key={product._id}
+                            className="group relative bg-white rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-700 ease-in-out overflow-hidden transform hover:scale-105"
                         >
                             <div className="relative">
                                 <Link to={`/product/${product._id}`}>
-                                    <img 
+                                    <img
                                         src={product.images?.[0]?.url || '/default-product.jpg'}
-                                        alt={product.name} 
-                                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                                        alt={product.name}
+                                        className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                                         onError={(e) => {
                                             e.target.onerror = null;
                                             e.target.src = '/default-product.jpg';
@@ -98,40 +99,37 @@ const FavoriteButton = () => {
                                 </Link>
                                 <button
                                     onClick={() => handleRemoveFromFavorites(product._id)}
-                                    className="absolute top-3 right-3 p-3 bg-white/90 backdrop-blur-sm text-red-500 
-                                             rounded-full hover:bg-red-500 hover:text-white transition-all duration-300
-                                             opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0
-                                             shadow-sm hover:shadow-md"
+                                    className="absolute top-3 right-3 p-4 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-full shadow-xl hover:bg-red-600 hover:scale-110 transition-all duration-300"
                                 >
                                     <i className="fas fa-trash-alt"></i>
                                 </button>
                                 {product.stock < 5 && (
-                                    <div className="absolute top-3 left-3 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
+                                    <div className="absolute top-3 left-3 px-3 py-1 bg-gradient-to-r from-yellow-300 to-yellow-600 text-white rounded-full text-sm font-semibold shadow-xl transform translate-y-2 group-hover:translate-y-0">
                                         Son {product.stock} ədəd
                                     </div>
                                 )}
                             </div>
-                            
-                            <div className="p-5">
+
+                            <div className="p-6 bg-gradient-to-b from-white to-gray-50 rounded-b-3xl">
                                 <Link to={`/product/${product._id}`}>
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors duration-200 line-clamp-2">
+                                    <h3 className="text-2xl font-semibold text-gray-900 mb-3 hover:text-indigo-500 transition-all duration-300 ease-in-out line-clamp-2">
                                         {product.name}
                                     </h3>
                                 </Link>
                                 <div className="flex items-center justify-between mt-4">
                                     <div>
-                                        <p className="text-2xl font-bold text-blue-600">
+                                        <p className="text-2xl font-bold text-gradient text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-700">
                                             {product.price.toFixed(2)} ₼
                                         </p>
                                         {product.oldPrice && (
-                                            <p className="text-sm text-gray-500 line-through">
+                                            <p className="text-sm text-gray-600 line-through">
                                                 {product.oldPrice.toFixed(2)} ₼
                                             </p>
                                         )}
                                     </div>
-                                    <Link 
+                                    <Link
                                         to={`/product/${product._id}`}
-                                        className="inline-flex items-center justify-center px-4 py-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300"
+                                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg shadow-lg transform transition-all duration-300 ease-out hover:bg-blue-600 hover:scale-105"
                                     >
                                         <span>Ətraflı</span>
                                         <i className="fas fa-arrow-right ml-2"></i>
