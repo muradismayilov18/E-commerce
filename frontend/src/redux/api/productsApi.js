@@ -98,7 +98,14 @@ export const productApi = createApi({
             }),
             invalidatesTags: ['Favorites']
         }),
+
+        getFilteredProducts: builder.query({
+            query: (filters) => {
+                const query = new URLSearchParams(filters).toString();
+                return `/products/filter?${query}`;
+            }
+        }),
     })
 });
 
-export const { useGetProductDetailsQuery, useGetProductsQuery, useAddProductMutation, useDeleteProductMutation, useEditProductMutation, useGetCartQuery, useAddToCartMutation, useRemoveFromCartMutation, useUpdateCartQuantityMutation, useGetFavoritesQuery, useAddToFavoritesMutation, useRemoveFromFavoritesMutation } = productApi;
+export const { useGetProductDetailsQuery, useGetProductsQuery, useAddProductMutation, useDeleteProductMutation, useEditProductMutation, useGetCartQuery, useAddToCartMutation, useRemoveFromCartMutation, useUpdateCartQuantityMutation, useGetFavoritesQuery, useAddToFavoritesMutation, useRemoveFromFavoritesMutation, useGetFilteredProductsQuery  } = productApi;
