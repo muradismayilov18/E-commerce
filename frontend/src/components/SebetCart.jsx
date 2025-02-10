@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useGetCartQuery, useRemoveFromCartMutation, useUpdateCartQuantityMutation } from '../redux/api/productsApi';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -7,10 +7,7 @@ const SebetCart = () => {
     const { data: cartData, isLoading, error } = useGetCartQuery();
     const [removeFromCart] = useRemoveFromCartMutation();
     const [updateQuantity] = useUpdateCartQuantityMutation();
-    
-    // Add category filter state
-    const [selectedCategory, setSelectedCategory] = useState('all');
-    
+
     const calculateTotal = () => {
         if (!cartData?.cart) return 0;
         return cartData.cart.reduce((total, item) => {
@@ -54,26 +51,20 @@ const SebetCart = () => {
         }
     };
 
-    // Filter products by category
-    const filteredCartData = cartData?.cart?.filter(item => {
-        if (selectedCategory === 'all') return true;
-        return item.product.category === selectedCategory;
-    });
-
     if (isLoading) return (
         <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-teal-200 to-blue-500">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-teal-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-teal-600"></div>
         </div>
-    );
-
-    if (error) return (
+      );
+    
+      if (error) return (
         <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-red-100 to-pink-200">
-            <div className="text-red-500 text-center">
-                <p className="text-xl font-semibold">Xəta baş verdi</p>
-                <p className="text-sm">{error.message}</p>
-            </div>
+          <div className="text-red-500 text-center">
+            <p className="text-xl font-semibold">Xəta baş verdi</p>
+            <p className="text-sm">{error.message}</p>
+          </div>
         </div>
-    );
+      );
 
     if (!cartData?.cart?.length) {
         return (
@@ -98,29 +89,12 @@ const SebetCart = () => {
         <section className="bg-gradient-to-b from-teal-50 via-teal-100 to-teal-200 py-12 min-h-screen">
             <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <h2 className="text-5xl font-extrabold text-gray-900 mb-12 text-center">
-                    Səbətim ({filteredCartData.length} məhsul)
+                    Səbətim ({cartData.cart.length} məhsul)
                 </h2>
-
-                {/* Filter Dropdown */}
-                <div className="mb-6">
-                    <label htmlFor="category" className="text-xl font-semibold text-gray-800">Kateqoriya seçin:</label>
-                    <select
-                        id="category"
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="ml-4 p-2 rounded-md border border-gray-300"
-                    >
-                        <option value="all">Bütün Məhsullar</option>
-                        <option value="electronics">Elektronika</option>
-                        <option value="clothing">Geyim</option>
-                        <option value="home">Ev əşyaları</option>
-                        {/* Əlavə kateqoriyalar buraya əlavə oluna bilər */}
-                    </select>
-                </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     <div className="lg:col-span-2 space-y-6">
-                        {filteredCartData.map((item) => (
+                        {cartData.cart.map((item) => (
                             <div key={item.product._id}
                                 className="bg-gradient-to-r from-white to-teal-50 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-200 hover:border-teal-600 transform hover:scale-105"
                             >
@@ -211,13 +185,32 @@ const SebetCart = () => {
 
                     <div className="lg:col-span-1">
                         <div className="bg-gradient-to-r from-teal-50 to-teal-100 rounded-3xl shadow-lg p-6 sticky top-8 border border-gray-200">
-                            <h3 className="text-xl font-semibold text-gray-900 mb-4">Ümumi məbləğ</h3>
-                            <div className="text-3xl font-bold text-teal-600 mb-4">
-                                {(calculateTotal()).toFixed(2)}₼
+                            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                                Sifariş xülasəsi
+                            </h3>
+
+                            <div className="space-y-4">
+                                <div className="flex justify-between text-gray-600">
+                                    <span>Məhsulların qiyməti</span>
+                                    <span className="font-medium">{calculateTotal().toFixed(2)}₼</span>
+                                </div>
+                                <div className="flex justify-between text-gray-600">
+                                    <span>Çatdırılma</span>
+                                    <span className="font-medium">0₼</span>
+                                </div>
+                                <div className="border-t border-gray-200 my-4"></div>
+                                <div className="flex justify-between text-xl font-semibold text-gray-900">
+                                    <span>Cəm</span>
+                                    <span>{calculateTotal().toFixed(2)}₼</span>
+                                </div>
                             </div>
-                            <div className="text-center">
-                                <button className="w-full bg-teal-600 text-white font-semibold py-3 rounded-lg hover:bg-teal-700 transition-all duration-300">Sifarişi tamamla</button>
-                            </div>
+
+                            <button
+                                className="w-full mt-6 bg-gradient-to-r from-teal-600 to-teal-800 text-white font-semibold py-3 rounded-full hover:bg-gradient-to-r hover:from-teal-700 hover:to-teal-900 transition-all duration-300 shadow-xl transform hover:scale-105"
+                                onClick={() => toast.info('Sifariş göndərmək funksiyası əlavə ediləcək!')}
+                            >
+                                Sifarişi tamamlamaq
+                            </button>
                         </div>
                     </div>
                 </div>
