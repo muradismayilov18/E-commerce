@@ -29,7 +29,7 @@ export default [
         ],
         category: "Cameras",
         seller: "CameraWorld",
-        stock: 20,
+        stock: 0,
         numOfReviews: 28,
         reviews: [],
     },
@@ -54,7 +54,7 @@ export default [
         name: "4K Gaming Monitor 27-inch",
         price: 449.99,
         description: "27-inch 4K gaming monitor with 144Hz refresh rate, 1ms response time, and HDR support. Perfect for gaming and content creation.",
-        ratings: 4.8,
+        ratings: 1.8,
         images: [
             {
                 public_id: "shopit/demo/yxbrklp7snr7dgxfrxu9",

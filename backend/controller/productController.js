@@ -137,3 +137,49 @@ export const searchProducts = catchAsyncErrors(async (req, res, next) => {
         currentPage: page,
     });
 });
+
+export const filterProducts = catchAsyncErrors(async (req, res, next) => {
+    const { category, minPrice, maxPrice, ratings, inStock, page = 1, limit = 10 } = req.query;
+
+    let filter = {};
+
+    // 📌 Kategori filtresi
+    if (category) {
+        filter.category = category;
+    }
+
+    // 📌 Fiyat filtresi
+    if (minPrice || maxPrice) {
+        filter.price = {};
+        if (minPrice) filter.price.$gte = Number(minPrice);
+        if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    // 📌 Reyting filtresi (yalnız seçilən reytinqə bərabər olanları gətirir)
+    if (ratings) {
+        const ratingValue = parseFloat(ratings);
+        if (!isNaN(ratingValue)) {
+            filter.ratings = { $eq: ratingValue }; // Burada `eq` istifadə edirik
+        }
+    }
+
+    // 📌 Stok durumu filtresi
+    if (inStock) {
+        filter.stock = inStock === "true" ? { $gt: 0 } : { $lte: 0 };
+    }
+
+    // 📌 MongoDB’den verileri getir
+    const products = await Product.find(filter)
+        .skip((page - 1) * Number(limit))
+        .limit(Number(limit));
+
+    const totalProducts = await Product.countDocuments(filter);
+
+    res.status(200).json({
+        success: true,
+        products,
+        totalProducts,
+        totalPages: Math.ceil(totalProducts / Number(limit)),
+        currentPage: Number(page),
+    });
+});

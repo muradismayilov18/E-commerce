@@ -2,7 +2,7 @@ import express from "express";
 
 const router = express.Router()
 
-import { getProducts, getProductDetails, updateProduct, deleteProduct, newProduct, searchProducts } from "../controller/productController.js";
+import { getProducts, getProductDetails, updateProduct, deleteProduct, newProduct, searchProducts, filterProducts } from "../controller/productController.js";
 import { authorizeRoles, isAuthenticatedUser } from "../middleware/auth.js";
 import { addToCart, getCartProducts, removeFromCart, updateCartQuantity } from "../controller/cartController.js";
 import { addToFavorites, getFavoriteProducts, removeFromFavorites,  } from "../controller/favoriteController.js";
@@ -13,7 +13,7 @@ router.put('/products/cart/update/:productId', isAuthenticatedUser, updateCartQu
 router.post("/products/cart", isAuthenticatedUser, addToCart);
 router.delete("/products/cart/:productId", isAuthenticatedUser, removeFromCart);
 router.get("/products/cart", isAuthenticatedUser, getCartProducts);
-
+router.get("/products/filter", filterProducts);
 // Favorilere ekleme veya çıkarma (toggle)
 router.post("/products/favorites", isAuthenticatedUser, addToFavorites);
 
