@@ -20,7 +20,12 @@ import Categories from './components/Categories'
 import Footer from './components/Footer'
 import Kadın from './pages/Kadın'
 import FavoriteButton from './components/FavoriteButton'
-
+import Shop from './pages/Shop'
+import Elektronika from './components/Elektronika'
+import Cameras from './components/Cameras'
+import Food from './components/Food'
+import Headphones from './components/Headphones'
+import Laptops from './components/Laptops'
 
 function App() {
   return (
@@ -45,6 +50,12 @@ function App() {
       <Route path="/cart" element={<SebetCart/>} />
       <Route path="/kadin" element={<Kadın/>} />
       <Route path="/favori" element={<FavoriteButton/>} />
+      <Route path="/shop" element={<Shop/>} />
+      <Route path="/elektronika" element={<Elektronika/>} />
+      <Route path="/camera" element={<Cameras/>} />
+      <Route path="/food" element={<Food/>} />
+      <Route path="/headphones" element={<Headphones/>} />
+      <Route path="/laptop" element={<Laptops/>} />
     </Routes>
     <Footer/>
     </BrowserRouter>

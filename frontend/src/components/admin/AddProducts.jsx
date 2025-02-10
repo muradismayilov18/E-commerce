@@ -23,7 +23,6 @@ const AddProducts = () => {
 
       setSelectedImages((prevImages) => [...prevImages, ...newImages]);
     } catch (error) {
-      console.error('Şəkil oxunarkən xəta baş verdi:', error);
     }
   };
 
@@ -93,7 +92,6 @@ const AddProducts = () => {
       setImages([]);
 
     } catch (error) {
-      console.log(error)
       Swal.fire({
         title: "Xəta!",
         text: "Məhsul əlavə edilərkən xəta baş verdi.",

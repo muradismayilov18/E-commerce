@@ -25,7 +25,6 @@ const ProductDetail = () => {
       }).unwrap()
       toast.success("Məhsul səbətə əlavə edildi")
     } catch (error) {
-      console.error("Səbətə əlavə edilərkən xəta:", error)
       toast.error("Məhsul əlavə edilərkən xəta baş verdi")
     }
   }
@@ -37,7 +36,6 @@ const ProductDetail = () => {
         toast.success("Məhsul sevimlilərə əlavə edildi")
       }
     } catch (error) {
-      console.error("Sevimlilərə əlavə edilərkən xəta:", error)
       toast.error(error.data?.message || "Məhsul əlavə edilərkən xəta baş verdi")
     }
   }

@@ -37,7 +37,6 @@ const Login = () => {
   };
 
   const handleError = (err) => {
-    console.error('Full error: ', err);
 
     if (err?.status === 404) {
       toast.error("API endpoint not found (404). Please check your API URL.");

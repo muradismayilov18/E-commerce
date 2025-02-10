@@ -36,7 +36,6 @@ const SebetCart = () => {
             }).unwrap();
             toast.success('Məhsul sayı yeniləndi');
         } catch (error) {
-            console.error("Miqdar yenilənərkən xəta:", error);
             toast.error('Miqdar yenilənərkən xəta baş verdi');
         }
     };
@@ -46,7 +45,6 @@ const SebetCart = () => {
             await removeFromCart(productId).unwrap();
             toast.success('Məhsul səbətdən silindi');
         } catch (error) {
-            console.error("Məhsul silinərkən xəta:", error);
             toast.error('Məhsul silinərkən xəta baş verdi');
         }
     };

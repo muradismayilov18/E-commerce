@@ -8,7 +8,6 @@ const Card = () => {
 
   useEffect(() => {
     if (isError) {
-      console.error(error);
       toast.error(error?.data?.message || "Bir hata oluştu.");
     }
   }, [isError, error]);
