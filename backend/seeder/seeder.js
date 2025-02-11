@@ -6,7 +6,10 @@ const seedProducts = async () => {
     try {
         await mongoose.connect("mongodb://localhost:27017/e-commerce");
         await Product.deleteMany();
+        console.log("Mehsullar silindi")
         await Product.insertMany(products);
+        console.log("Mehsullar elave edildi...")
+
         process.exit();
     } catch (err) {
         process.exit(1); 

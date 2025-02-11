@@ -1,4 +1,4 @@
-export const getReserPasswordTemplate = (username, resetUrl) => `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+export const getResetPasswordTemplate = (istifadeciAdi, sifirlamaLinki) => `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -137,11 +137,11 @@ export const getReserPasswordTemplate = (username, resetUrl) => `<!DOCTYPE html 
 
 
      .button--green {
-       background-color: #22bc66;
-       border-top: 10px solid #22bc66;
-       border-right: 18px solid #22bc66;
-       border-bottom: 10px solid #22bc66;
-       border-left: 18px solid #22bc66;
+       background-color: #ffce08;
+       border-top: 10px solid #ffce08;
+       border-right: 18px solid #ffce08;
+       border-bottom: 10px solid #ffce08;
+       border-left: 18px solid #ffce08;
      }
 
 
@@ -505,10 +505,10 @@ export const getReserPasswordTemplate = (username, resetUrl) => `<!DOCTYPE html 
            <tr>
              <td class="email-masthead">
                <a
-                 href="https://murad.com"
+                 href="https://anvarkhalid.com"
                  class="f-fallback email-masthead_name"
                >
-                 Murad Ismayilov
+                 Anvar Khalid
                </a>
              </td>
            </tr>
@@ -532,10 +532,10 @@ export const getReserPasswordTemplate = (username, resetUrl) => `<!DOCTYPE html 
                  <tr>
                    <td class="content-cell">
                      <div class="f-fallback">
-                       <h1>Hi ${username},</h1>
+                       <h1>Hi ${istifadeciAdi},</h1>
                        <p>
                          You recently requested to reset your password for your
-                         Murad Ismayilov account. Use the button below to reset it.
+                         Anvar Khalid account. Use the button below to reset it.
                          <strong
                            >This password reset is only valid for the next 30
                            minutes.</strong
@@ -563,10 +563,10 @@ export const getReserPasswordTemplate = (username, resetUrl) => `<!DOCTYPE html 
                                <tr>
                                  <td align="center">
                                    <a
-                                     href="${resetUrl}"
+                                     href="${sifirlamaLinki}"
                                      class="f-fallback button button--green"
                                      target="_blank"
-                                     >Reset your password</a
+                                     >Shifreni sifirla</a
                                    >
                                  </td>
                                </tr>
@@ -594,7 +594,7 @@ export const getReserPasswordTemplate = (username, resetUrl) => `<!DOCTYPE html 
                                browser.
                              </p>
                              <p class="f-fallback sub">
-                               <a href="${resetUrl}">${resetUrl}</a>
+                               <a href="${sifirlamaLinki}">${sifirlamaLinki}</a>
                              </p>
                            </td>
                          </tr>
@@ -618,7 +618,7 @@ export const getReserPasswordTemplate = (username, resetUrl) => `<!DOCTYPE html 
                  <tr>
                    <td class="content-cell" align="center">
                      <p class="f-fallback sub align-center">
-                       Murad Ismayilov
+                       Anvar Khalid
                        <br />Baku, Azerbaijan. <br /> Sergey Yesenin 104
                      </p>
                    </td>
@@ -631,5 +631,4 @@ export const getReserPasswordTemplate = (username, resetUrl) => `<!DOCTYPE html 
      </tr>
    </table>
  </body>
-</html>
-`
+</html>`

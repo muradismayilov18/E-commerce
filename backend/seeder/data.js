@@ -66,6 +66,5 @@ export default [
         stock: 30,
         numOfReviews: 89,
         reviews: [],
-    },
-    // Digər məhsulları da eyni formatda davam etdirin...
+    }
 ];
