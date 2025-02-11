@@ -40,145 +40,109 @@ const ProductDetail = () => {
     }
   }
 
-  if (isLoading)
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 p-8 animate-pulse">
-        <div className="max-w-screen-xl mx-auto">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-16">
-            <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-2xl"></div>
-            <div className="space-y-4 mt-6 lg:mt-0">
-              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-lg w-3/4"></div>
-              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded-lg w-1/4"></div>
-              <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
-              <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-
-  if (error)
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
-        <div className="text-center p-8 rounded-lg bg-white dark:bg-gray-800 shadow-xl">
-          <svg className="mx-auto h-12 w-12 text-red-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-            />
-          </svg>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Xəta baş verdi</h3>
-          <p className="text-gray-600 dark:text-gray-300">{error.message}</p>
-        </div>
-      </div>
-    )
-
-  if (!product)
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
-        <div className="text-center p-8 rounded-lg bg-white dark:bg-gray-800 shadow-xl">
-          <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Məhsul tapılmadı</h3>
-        </div>
-      </div>
-    )
-
   return (
-    <section className="py-12 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 min-h-screen transition-colors duration-300">
-      <div className="max-w-screen-xl px-4 mx-auto">
-        <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-start">
-          {/* Image Section */}
-          <div className="group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 p-2 transition-transform duration-300 hover:scale-[1.02] shadow-lg hover:shadow-2xl">
-            <div className="aspect-square overflow-hidden rounded-xl">
+    <section className="py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen transition-colors duration-300">
+      <div className="max-w-screen-2xl px-4 mx-auto">
+        <div className="lg:grid lg:grid-cols-2 lg:gap-24 items-start">
+          {/* Ultra Luxury Image Section */}
+          <div className="group relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800 p-4 shadow-2xl hover:shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] transition-all duration-500">
+            <div className="aspect-square overflow-hidden rounded-2xl border-4 border-white/20 dark:border-gray-700/50 relative">
               <img
-                className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
-                src={productImageUrl || "/placeholder.svg"}
+                className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                src={productImageUrl}
                 alt={product?.name}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                Premium
+              </div>
             </div>
           </div>
 
-          {/* Product Details Section */}
-          <div className="mt-8 lg:mt-0 space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white leading-tight tracking-tight">
+          {/* Ultra Premium Product Details */}
+          <div className="mt-12 lg:mt-0 space-y-10">
+            <div className="space-y-6">
+              <h1 className="text-5xl font-bold text-gray-900 dark:text-white leading-none tracking-tight font-playfair">
                 {product?.name}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-6">
-                <p className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500 animate-gradient">
-                  {product?.price} <span className="text-3xl">₼</span>
-                </p>
+              <div className="flex flex-wrap items-center gap-8">
+                <div className="relative">
+                  <p className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-amber-400 animate-pulse-slow">
+                    {product?.price} 
+                    <span className="text-4xl ml-2 bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text text-transparent">
+                      ₼
+                    </span>
+                  </p>
+                  <div className="absolute -bottom-2 left-0 h-1 w-full bg-gradient-to-r from-amber-500 to-transparent opacity-50"></div>
+                </div>
 
-                <div className="flex items-center gap-3 bg-white dark:bg-gray-800 p-2 rounded-lg shadow-md">
+                <div className="flex items-center gap-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm p-3 rounded-xl shadow-xl">
                   <StarRatings
                     rating={product?.ratings || 0}
-                    starRatedColor="#FBBF24"
+                    starRatedColor="#F59E0B"
                     numberOfStars={5}
-                    starDimension="20px"
-                    starSpacing="2px"
+                    starDimension="24px"
+                    starSpacing="3px"
+                    svgIconPath="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                   />
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
-                    ({product?.ratings || 0})
+                  <span className="text-lg font-semibold text-amber-600 dark:text-amber-400">
+                    ({product?.ratings || 0} Rating)
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Stock and Delivery Info */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 space-y-4 shadow-lg transform transition-all duration-300 hover:translate-y-[-4px]">
-              <div className="flex items-center gap-3">
-                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
-                  <svg
-                    className="w-6 h-6 text-green-500 dark:text-green-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
+            {/* Ultra Luxury Info Cards */}
+            <div className="space-y-6">
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-white/20 dark:border-gray-700/30 transition-transform duration-300 hover:scale-[1.02]">
+                <div className="flex items-center gap-5">
+                  <div className="flex-shrink-0 w-14 h-14 flex items-center justify-center rounded-xl bg-amber-500/10">
+                    <svg className="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-900 dark:text-white">Stok Mövcudluğu</h4>
+                    <p className="text-gray-600 dark:text-gray-300 mt-1">Həmən alın - Çatdırılma təmin edilir</p>
+                  </div>
                 </div>
-                <span className="text-lg font-medium text-gray-900 dark:text-white">Stokda var</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">
-                  <svg
-                    className="w-6 h-6 text-blue-500 dark:text-blue-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M20 8l-8 5-8-5V6l8 5 8-5V8z"
-                    ></path>
-                  </svg>
+
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-white/20 dark:border-gray-700/30 transition-transform duration-300 hover:scale-[1.02]">
+                <div className="flex items-center gap-5">
+                  <div className="flex-shrink-0 w-14 h-14 flex items-center justify-center rounded-xl bg-emerald-500/10">
+                    <svg className="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-900 dark:text-white">Sürətli Çatdırılma</h4>
+                    <p className="text-gray-600 dark:text-gray-300 mt-1">24-48 saat ərzində Bakı daxilində çatdırılma</p>
+                  </div>
                 </div>
-                <span className="text-lg font-medium text-gray-900 dark:text-white">2-3 gün ərzində çatdırılma</span>
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            {/* Ultra Premium Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-6">
               <button
                 onClick={handleAddToCart}
-                className="flex-1 group relative overflow-hidden rounded-lg text-lg font-semibold"
+                className="flex-1 group relative overflow-hidden rounded-xl transition-all duration-500 hover:-translate-y-1"
               >
-                <div className="absolute inset-0 w-3 bg-gradient-to-r from-purple-600 to-blue-500 transition-all duration-[400ms] ease-out group-hover:w-full"></div>
-                <div className="relative flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-purple-600 to-blue-500 group-hover:bg-transparent transition-colors duration-[400ms] text-white">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-600 to-amber-500 opacity-100 group-hover:from-amber-700 group-hover:to-amber-600 transition-colors duration-500"></div>
+                <div className="relative flex items-center justify-center gap-3 px-8 py-5 text-lg font-bold text-white">
+                  <svg
+                    className="w-7 h-7 transform group-hover:scale-110 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -188,15 +152,23 @@ const ProductDetail = () => {
                   </svg>
                   Səbətə əlavə et
                 </div>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+                </div>
               </button>
 
               <button
                 onClick={handleAddToFavorites}
-                className="flex-1 group relative overflow-hidden rounded-lg text-lg font-semibold"
+                className="flex-1 group relative overflow-hidden rounded-xl transition-all duration-500 hover:-translate-y-1 border-2 border-amber-500/20 hover:border-amber-500/50"
               >
-                <div className="absolute inset-0 w-3 bg-gray-100 dark:bg-gray-700 transition-all duration-[400ms] ease-out group-hover:w-full"></div>
-                <div className="relative flex items-center justify-center gap-2 px-6 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 group-hover:border-transparent transition-colors duration-[400ms]">
-                  <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="absolute inset-0 bg-amber-500/5 group-hover:bg-amber-500/10 transition-colors duration-500"></div>
+                <div className="relative flex items-center justify-center gap-3 px-8 py-5 text-lg font-bold text-amber-600 dark:text-amber-400">
+                  <svg
+                    className="w-7 h-7 transform group-hover:scale-110 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -206,14 +178,23 @@ const ProductDetail = () => {
                   </svg>
                   Sevimlilərə əlavə et
                 </div>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/20 to-transparent animate-shimmer"></div>
+                </div>
               </button>
             </div>
 
-            {/* Product Description */}
-            <div className="prose prose-lg max-w-none dark:prose-invert">
-              <div className="h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent my-8"></div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Məhsul haqqında</h3>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">{product?.description}</p>
+            {/* Ultra Luxury Product Description */}
+            <div className="mt-12 border-t border-amber-500/20 pt-12">
+              <h3 className="text-3xl font-playfair font-bold text-gray-900 dark:text-white mb-6 relative">
+                <span className="bg-gradient-to-r from-amber-500 to-amber-600 text-transparent bg-clip-text">
+                  Məhsul Haqqında Detallar
+                </span>
+                <div className="absolute bottom-0 left-0 w-24 h-1 bg-gradient-to-r from-amber-500 to-transparent"></div>
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg tracking-wide">
+                {product?.description}
+              </p>
             </div>
           </div>
         </div>
@@ -223,4 +204,3 @@ const ProductDetail = () => {
 }
 
 export default ProductDetail
-

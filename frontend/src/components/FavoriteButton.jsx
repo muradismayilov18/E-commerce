@@ -57,7 +57,7 @@ const FavoriteButton = () => {
           <h2 className="text-4xl font-extrabold text-gray-200">Favori Siyahınız Boşdur</h2>
           <p className="text-xl text-gray-400">Hələ heç bir məhsul əlavə etməmisiniz.</p>
           <Link
-            to="/"
+            to="/shop"
             className="inline-flex items-center justify-center bg-gradient-to-r from-pink-500 to-red-600 text-white px-8 py-4 rounded-lg hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-out"
           >
             <i className="fas fa-shopping-bag mr-2"></i>
