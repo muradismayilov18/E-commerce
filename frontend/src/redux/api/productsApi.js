@@ -71,8 +71,8 @@ export const productApi = createApi({
     }),
 
     getFavorites: builder.query({
-      query: () => '/products/favorites',
-      providesTags: ['Favorites'],
+      query: () => "/products/favorites",
+      providesTags: ["Favorites"],
       transformResponse: (response) => ({
         favorites: response?.favorites || [],
       }),
@@ -80,21 +80,33 @@ export const productApi = createApi({
 
     addToFavorites: builder.mutation({
       query: (productId) => ({
-        url: '/products/favorites',
-        method: 'POST',
+        url: "/products/favorites",
+        method: "POST",
         body: { productId },
-        credentials: 'include',
+        credentials: "include",
       }),
-      invalidatesTags: ['Favorites'],
+      invalidatesTags: ["Favorites"],
     }),
 
     removeFromFavorites: builder.mutation({
       query: (productId) => ({
         url: `/products/favorites/${productId}`,
-        method: 'DELETE',
-        credentials: 'include',
+        method: "DELETE",
+        credentials: "include",
       }),
-      invalidatesTags: ['Favorites'],
+      invalidatesTags: ["Favorites"],
+      async onQueryStarted(productId, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+          dispatch(
+            productApi.util.updateQueryData("getFavorites", undefined, (draft) => {
+              draft.favorites = draft.favorites.filter((favorite) => favorite._id !== productId)
+            }),
+          )
+        } catch {
+          // If the mutation fails, we don't need to do anything
+        }
+      },
     }),
 
     getFilteredProducts: builder.query({
