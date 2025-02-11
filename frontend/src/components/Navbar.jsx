@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
@@ -33,7 +31,6 @@ const Navbar = () => {
 
   const { data: cartData, isLoading: cartLoading, error: cartError } = useGetCartQuery()
 
-  // Cart item count display logic
   const getCartItemCount = () => {
     if (cartError || cartLoading || !cartData?.cart) {
       return 0
@@ -102,6 +99,18 @@ const Navbar = () => {
             </Link>
           </div>
 
+          {/* Mobile Menu Button */}
+          <div className="flex md:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-gray-800 hover:text-gray-500 focus:outline-none"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            </button>
+          </div>
+
           {/* Desktop Navigation - Centered */}
           <div className="hidden md:flex flex-1 justify-center">
             <div className="flex space-x-10">
@@ -115,67 +124,7 @@ const Navbar = () => {
                 to="/shop"
                 className="text-gray-800 hover:text-yellow-500 px-4 py-2 rounded-md text-lg font-semibold transition-all duration-300"
               >
-                <button
-                  id="dropdownNavbarLink"
-                  data-dropdown-toggle="dropdownNavbar"
-                  class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-                >
-                  Shop{" "}
-                  <svg
-                    class="w-2.5 h-2.5 ms-2.5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 10 6"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="m1 1 4 4 4-4"
-                    />
-                  </svg>
-                </button>
-                <div
-                  id="dropdownNavbar"
-                  class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600"
-                >
-                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
-                    <li>
-                      <Link
-                        to="/elektronika"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Elektronika
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/camera"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Cameras
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/food"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Food
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/headphones"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Headphones
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
+                Shop
               </Link>
               <Link
                 to="/about"
@@ -248,7 +197,7 @@ const Navbar = () => {
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className="flex items-center focus:outline-none rounded-full transition-all duration-200"
                 >
-                  <i class="fa-regular fa-user"></i>
+                  <i className="fa-regular fa-user"></i>
                 </button>
                 {isUserMenuOpen && (
                   <div className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-2 z-10 border border-gray-300">
@@ -298,9 +247,34 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white shadow-lg">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <Link
+              to="/"
+              className="block text-gray-800 hover:text-yellow-500 px-3 py-2 rounded-md text-base font-medium"
+            >
+              Home
+            </Link>
+            <Link
+              to="/shop"
+              className="block text-gray-800 hover:text-yellow-500 px-3 py-2 rounded-md text-base font-medium"
+            >
+              Shop
+            </Link>
+            <Link
+              to="/about"
+              className="block text-gray-800 hover:text-yellow-500 px-3 py-2 rounded-md text-base font-medium"
+            >
+              About
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   )
 }
 
 export default Navbar
-

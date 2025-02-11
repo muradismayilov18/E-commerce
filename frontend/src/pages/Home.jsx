@@ -6,7 +6,6 @@ import Deal from '../components/Deal'
 import LogoSection from '../components/LogoSection'
 import Perspiciatis from '../components/Perspiciatis'
 import Discount from '../components/Discount'
-import Product from "../components/Product"
 const Home = () => {
     
     return (
@@ -18,7 +17,6 @@ const Home = () => {
         <Perspiciatis/>
         <Deal/>
         <Discount/>
-        <Product/>
         </>
     )
 }
