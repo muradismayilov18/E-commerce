@@ -4,61 +4,61 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 const FavoriteButton = () => {
-    const { data: favoriteData, isLoading, refetch } = useGetFavoritesQuery();
-    const [removeFromFavorites] = useRemoveFromFavoritesMutation();
-    const [localFavorites, setLocalFavorites] = useState([]);
-
-    useEffect(() => {
+    const {
+        data: favoriteData,
+        isLoading,
+        refetch,
+      } = useGetFavoritesQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+      })
+      const [removeFromFavorites] = useRemoveFromFavoritesMutation()
+      const [localFavorites, setLocalFavorites] = useState([])
+    
+      useEffect(() => {
         if (favoriteData?.favorites) {
-            setLocalFavorites(favoriteData.favorites);
+          setLocalFavorites(favoriteData.favorites)
         } else {
-            setLocalFavorites([]); // Əgər favorit məlumatları yoxdursa, lokal state-i boş array ilə təyin edin
+          setLocalFavorites([])
         }
-    }, [favoriteData]);
-
-    const handleRemoveFromFavorites = async (productId) => {
+      }, [favoriteData])
+    
+      const handleRemoveFromFavorites = async (productId) => {
         try {
-            // Optimistik yeniləmə (UI dərhal dəyişir)
-            setLocalFavorites(prev => prev.filter(item => item._id !== productId));
-
-            // Serverdəki məlumatları silirik
-            await removeFromFavorites(productId).unwrap();
-            toast.success('Məhsul favorilərdən silindi');
-
-            // API-dan yenilənmiş məlumatları çəkmək
-            await refetch();
+          await removeFromFavorites(productId).unwrap()
+          setLocalFavorites((prev) => prev.filter((item) => item._id !== productId))
+          toast.success("Məhsul favorilərdən silindi")
+          await refetch()
         } catch (error) {
-            toast.error('Məhsul silinərkən xəta baş verdi');
-            setLocalFavorites(favoriteData?.favorites || []); // Əvvəlki vəziyyətə qaytar
+          toast.error("Məhsul silinərkən xəta baş verdi")
         }
-    };
-
-    if (isLoading) {
+      }
+    
+      if (isLoading) {
         return (
-            <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-indigo-600 to-purple-700">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-white"></div>
-            </div>
-        );
-    }
-
-    if (!localFavorites || localFavorites.length === 0) {
+          <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-indigo-600 to-purple-700">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-white"></div>
+          </div>
+        )
+      }
+    
+      if (!localFavorites || localFavorites.length === 0) {
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 to-gray-900 text-white py-12">
-                <div className="text-center space-y-6">
-                    <i className="fas fa-heart text-6xl text-gray-400"></i>
-                    <h2 className="text-4xl font-extrabold text-gray-200">Favori Siyahınız Boşdur</h2>
-                    <p className="text-xl text-gray-400">Hələ heç bir məhsul əlavə etməmisiniz.</p>
-                    <Link
-                        to="/"
-                        className="inline-flex items-center justify-center bg-gradient-to-r from-pink-500 to-red-600 text-white px-8 py-4 rounded-lg hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-out"
-                    >
-                        <i className="fas fa-shopping-bag mr-2"></i>
-                        Alış-verişə Başla
-                    </Link>
-                </div>
+          <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 to-gray-900 text-white py-12">
+            <div className="text-center space-y-6">
+              <i className="fas fa-heart text-6xl text-gray-400"></i>
+              <h2 className="text-4xl font-extrabold text-gray-200">Favori Siyahınız Boşdur</h2>
+              <p className="text-xl text-gray-400">Hələ heç bir məhsul əlavə etməmisiniz.</p>
+              <Link
+                to="/"
+                className="inline-flex items-center justify-center bg-gradient-to-r from-pink-500 to-red-600 text-white px-8 py-4 rounded-lg hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-out"
+              >
+                <i className="fas fa-shopping-bag mr-2"></i>
+                Alış-verişə Başla
+              </Link>
             </div>
-        );
-    }
+          </div>
+        )
+      }
 
     return (
         <section className="bg-gradient-to-b from-gray-100 to-gray-300 py-12 min-h-screen">

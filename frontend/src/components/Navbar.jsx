@@ -18,16 +18,17 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
 
-  const { data: favoriteData } = useGetFavoritesQuery()
-
   const handleLogout = () => {
     dispatch(logout())
     navigate("/login")
   }
 
-  const handleSearch = async (e) => {
+  const handleSearch = (e) => {
     e.preventDefault()
-    // Arama mantığınız buraya
+    if (searchQuery.trim()) {
+      navigate(`/search-results?query=${encodeURIComponent(searchQuery)}`)
+    }
+    setShowSearch(false)
   }
 
   const { data: cartData, isLoading: cartLoading, error: cartError } = useGetCartQuery()
@@ -39,6 +40,15 @@ const Navbar = () => {
     }
     return cartData.cart.length
   }
+
+  const getFavoriteItemCount = () => {
+    if (favoriteError || favoriteLoading || !favoriteData?.favorites) {
+      return 0
+    }
+    return favoriteData.favorites.length
+  }
+
+  const { data: favoriteData, isLoading: favoriteLoading, error: favoriteError } = useGetFavoritesQuery()
 
   return (
     <nav className="bg-white shadow-xl border-b-2 border-gray-200">
@@ -105,28 +115,67 @@ const Navbar = () => {
                 to="/shop"
                 className="text-gray-800 hover:text-yellow-500 px-4 py-2 rounded-md text-lg font-semibold transition-all duration-300"
               >
-            <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Shop <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-  </svg></button>
-            <div id="dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
-                  <li>
-                    <Link to="/elektronika" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Elektronika</Link>
-                  </li>
-                  <li>
-                    <Link to="/camera" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cameras</Link>
-                  </li>
-                  <li>
-                    <Link to="/food" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Food</Link>
-                  </li>
-                  <li>
-                    <Link to="/headphones" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Headphones</Link>
-                  </li>
-                </ul>
-                
-            </div>
-
-                
+                <button
+                  id="dropdownNavbarLink"
+                  data-dropdown-toggle="dropdownNavbar"
+                  class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+                >
+                  Shop{" "}
+                  <svg
+                    class="w-2.5 h-2.5 ms-2.5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 4 4 4-4"
+                    />
+                  </svg>
+                </button>
+                <div
+                  id="dropdownNavbar"
+                  class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600"
+                >
+                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                    <li>
+                      <Link
+                        to="/elektronika"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      >
+                        Elektronika
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/camera"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      >
+                        Cameras
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/food"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      >
+                        Food
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/headphones"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      >
+                        Headphones
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               </Link>
               <Link
                 to="/about"
@@ -154,23 +203,23 @@ const Navbar = () => {
               </svg>
             </button>
             <Link
-        to="/cart"
-        className="relative p-2 text-gray-800 hover:text-yellow-500 rounded-full hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-          />
-        </svg>
-        {getCartItemCount() > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-            {getCartItemCount()}
-          </span>
-        )}
-      </Link>
+              to="/cart"
+              className="relative p-2 text-gray-800 hover:text-yellow-500 rounded-full hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 004 0z"
+                />
+              </svg>
+              {getCartItemCount() > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                  {getCartItemCount()}
+                </span>
+              )}
+            </Link>
 
             {/* Favorites */}
             <Link
@@ -185,9 +234,9 @@ const Navbar = () => {
                   d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                 />
               </svg>
-              {favoriteData?.favorites?.length > 0 && (
+              {getFavoriteItemCount() > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                  {favoriteData.favorites.length}
+                  {getFavoriteItemCount()}
                 </span>
               )}
             </Link>
@@ -256,3 +305,4 @@ const Navbar = () => {
 }
 
 export default Navbar
+

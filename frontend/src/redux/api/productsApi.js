@@ -111,22 +111,14 @@ export const productApi = createApi({
       }),
       providesTags: ['Cart'],
     }),
+
+    searchProducts: builder.query({
+      query: ({ query, page = 1, limit = 10 }) => ({
+        url: "/products/search",
+        params: { query, page, limit },
+      }),
+    }),
   }),
 });
 
-export const {
-  useGetProductDetailsQuery,
-  useGetProductsQuery,
-  useAddProductMutation,
-  useDeleteProductMutation,
-  useEditProductMutation,
-  useGetCartQuery,
-  useAddToCartMutation,
-  useRemoveFromCartMutation,
-  useUpdateCartQuantityMutation,
-  useGetFavoritesQuery,
-  useAddToFavoritesMutation,
-  useRemoveFromFavoritesMutation,
-  useGetFilteredProductsQuery,
-  useGetFilteredCartQuery, // Yeni əlavə edilən endpoint
-} = productApi;
+export const { useGetProductDetailsQuery, useGetProductsQuery, useAddProductMutation, useDeleteProductMutation, useEditProductMutation, useGetCartQuery, useAddToCartMutation, useRemoveFromCartMutation, useUpdateCartQuantityMutation, useGetFavoritesQuery, useAddToFavoritesMutation, useRemoveFromFavoritesMutation, useGetFilteredProductsQuery, useGetFilteredCartQuery, useSearchProductsQuery} = productApi;
