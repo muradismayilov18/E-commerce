@@ -246,11 +246,9 @@ const Navbar = () => {
               <div className="relative">
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-full transition-all duration-200"
+                  className="flex items-center focus:outline-none rounded-full transition-all duration-200"
                 >
-                  <div className="w-14 h-14 bg-gradient-to-r from-yellow-400 to-red-500 flex items-center justify-center text-2xl text-white font-semibold rounded-full shadow-lg">
-                    {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
-                  </div>
+                  <i class="fa-regular fa-user"></i>
                 </button>
                 {isUserMenuOpen && (
                   <div className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-2 z-10 border border-gray-300">
