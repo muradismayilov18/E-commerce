@@ -100,43 +100,37 @@ export const newProduct = catchAsyncErrors(async (req, res, next) => {
   });
   
 export const searchProducts = catchAsyncErrors(async (req, res, next) => {
-    const { query, page = 1, limit = 10 } = req.query;
-
+    const { query, page = 1, limit = 10 } = req.query
+  
     if (!query) {
-        return next(new ErrorHandler("Lütfen bir arama sorgusu girin.", 400));
+      return next(new ErrorHandler("Lütfen bir arama sorgusu girin.", 400))
     }
-
-    const searchRegex = new RegExp(query, "i");
-
+  
+    const searchRegex = new RegExp(query, "i")
+  
     const products = await Product.find({
-        $or: [
-            { name: { $regex: searchRegex } },
-            { description: { $regex: searchRegex } },
-        ],
+      name: { $regex: searchRegex },
     })
-        .skip((page - 1) * limit)
-        .limit(limit);
-
+      .skip((page - 1) * limit)
+      .limit(limit)
+  
     const totalProducts = await Product.countDocuments({
-        $or: [
-            { name: { $regex: searchRegex } },
-            { description: { $regex: searchRegex } },
-        ],
-    });
-
+      name: { $regex: searchRegex },
+    })
+  
     if (products.length === 0) {
-        return next(new ErrorHandler("Aramanızla eşleşen ürün bulunamadı.", 404));
+      return next(new ErrorHandler("Aramanızla eşleşen ürün bulunamadı.", 404))
     }
-
+  
     res.status(200).json({
-        success: true,
-        message: "Arama sonuçları başarıyla getirildi.",
-        products,
-        totalProducts,
-        totalPages: Math.ceil(totalProducts / limit),
-        currentPage: page,
-    });
-});
+      success: true,
+      message: "Arama sonuçları başarıyla getirildi.",
+      products,
+      totalProducts,
+      totalPages: Math.ceil(totalProducts / limit),
+      currentPage: page,
+    })
+  })
 
 export const filterProducts = catchAsyncErrors(async (req, res, next) => {
     const { category, minPrice, maxPrice, ratings, inStock, page = 1, limit = 10 } = req.query;
